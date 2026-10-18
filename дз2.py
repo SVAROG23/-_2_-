@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 import os
 
-# ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ (Структурирование приложения)
+# ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 
 def load_data(file_path_xlsx='Coffee Shop Sales.xlsx', file_path_csv='Coffee Shop Sales.csv'):
-    """Чтение данных с обработкой ошибок (EAFP подход)"""
+    """Чтение данных с обработкой ошибок"""
     print("=" * 60)
     print("ПУНКТ 1. ЧТЕНИЕ ДАННЫХ")
     print("=" * 60)
@@ -52,7 +52,7 @@ def filter_data(df, threshold=3.0, category='Coffee'):
     print("ПУНКТ 2. ФИЛЬТРАЦИЯ")
     print("=" * 60)
     
-    # Проверка категории (LBYL)
+    # Проверка категории
     available_categories = df['product_category'].unique()
     if category not in available_categories:
         print(f"Категория '{category}' не найдена. Доступные: {list(available_categories)}")
@@ -139,19 +139,20 @@ def save_data(df, filename='processed_coffee.csv'):
     print("=" * 60)
     
     try:
-        df.to_csv(filename, index=False)
+        # ВОТ ЗДЕСЬ ДОБАВЛЕНА КОДИРОВКА utf-8-sig
+        df.to_csv(filename, index=False, encoding='utf-8-sig')
         print(f"Файл {filename} успешно сохранён.")
     except Exception as e:
         print(f"Ошибка при сохранении файла: {e}")
 
 
-# ГЛАВНАЯ ФУНКЦИЯ (Точка входа)
+# ГЛАВНАЯ ФУНКЦИЯ
 
 def main():
     # 1. Чтение
     df = load_data()
     if df is None:
-        return  # Прерываем выполнение, если данные не загрузились
+        return 
     
     # 2. Фильтрация
     filtered = filter_data(df)
